@@ -1,0 +1,23 @@
+﻿Data set,Variable,Range or levels,Description
+Both,Age,20-80,Age in years binned into 5 year categories
+Longitudinal,Average_Given.Out,0-5.333,Average amount given to the three out-group candidate recipients in the 2014-15 economic game. Note that 17 participants were not presented with out-group members; see Supplement for details.
+Both,Chose_R,"0,1",Whether the participant chose the right-hand card (1) or the left-hand card (0)
+Both,Good.High_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was a ""very good person"""
+Both,Good.Med_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was a ""good person"""
+Both,Loc.City_Diff,"-1,0,1","An index indicating whether the candidate friend on the left-hand card (-1) or right-hand card (1) was described as living in La Paz; if both or neither were described as living in La Paz, the value is 0"
+Both,Loc. SameValley_Diff,"-1,0,1","An index indicating whether the candidate friend on the left-hand card (-1) or right-hand card (1) was described as living elsewhere in the same river valley; if both or neither were described as living in La Paz, the value is 0"
+Both,NetIncome,-17620-29020,"Estimated household income in the last month minus household expenditures, reported in bolivianos (the local currency)"
+Longitudinal,Nonanonymous_Play,,Whether a participant opted to play the 2014-15 economic game non-anonymously (the default) or anonymously. See Pisor & Gurven 2018 for more details
+Both,Order,1-18,Order in which the pair of cards in this row was presented to the participant
+Both,Population,"Intercultural, Moseten",The participant's population of residence
+Both,Pueblo.Other_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was from a different pueblo indigena than the participant"
+Both,Relig.Other_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was from a different religious affiliation than the participant"
+Both,RID,1-286,A random identification number assigned to the participant. Note that these RIDs are different across AP's publications and cannot be merged
+Both,School_Yrs,1-16,The years a participant spent in school; note that 16 is reached by attending 4 years of college or trade school after high school
+Both,Sex,"fem, male",The sex assigned the participant based on how they presented to the research assistant
+Both,Trust.High_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was a ""very trustworthy"""
+Both,Trust.Med_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) was a ""trustworthy"""
+Longitudinal,Type,"Pueblo, Religion",Whether the participant was told the pueblo indigena or the religious affiliation of candidate recipients in the 2014-15 economic game
+Both,Version,A-J,"Which of the 10 counterbalanced, randomized interviews a participant completed in 2017. See Supplement for more details."
+Both,Wealth.High_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) had ""a lot of money"""
+Both,Wealth.Med_Diff,"-1,0,1","Whether the candidate friend on the left-hand card (-1), right-hand card (1), both (0), or neither (0) had ""money"""
