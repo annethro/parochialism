@@ -95,13 +95,18 @@ nc17 <- brm(formula = Chose_R ~
 
 ### Controls ###
 
-c17 <- brm(formula = Chose_R ~
+# For controls to make sense -- to control for third variables affecting whether someone picks a long-distance partner, for example, rather than just for whether they picked the right-hand card (which would just be saying something like "do wealthier people prefer whatever card's on the right?" -- we interact each control with location, pueblo indigena, and religion one at a time.
+
+
+## Age
+
+c17_a <- brm(formula = Chose_R ~
              # Predictors of interest
              
-             Loc.SameValley_Diff +
-              Loc.City_Diff +
-              Pueblo.Other_Diff +
-              Relig.Other_Diff +
+             Loc.SameValley_Diff * Age.z +
+              Loc.City_Diff * Age.z +
+              Pueblo.Other_Diff * Age.z +
+              Relig.Other_Diff * Age.z +
              
              # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
               Good.High_Diff +
@@ -111,25 +116,93 @@ c17 <- brm(formula = Chose_R ~
               Wealth.High_Diff +
               Wealth.Med_Diff +
              
-             # Controls 
-              Age.z + Sex + School.z + NetIncome.z +
-             
              # Random effects
               (1|RID) + (1|Population) + (1|Version),
            
-            data = full3, family = bernoulli, prior = priors, control = list(adapt_delta = 0.999, max_treedepth = 12),
+            data = full3, family = bernoulli, prior = priors, control = list(adapt_delta = 0.9999, max_treedepth = 12),
             chains = num.chains, cores = num.cores, seed = semilla)
 
-# Both models provide qualitatively similar results. We report the model with controls in the main text and supplement.
+## Sex
 
-############## Plot model with controls ##############
+c17_se <- brm(formula = Chose_R ~
+             # Predictors of interest
+             
+             Loc.SameValley_Diff * Sex +
+             Loc.City_Diff * Sex +
+             Pueblo.Other_Diff * Sex +
+             Relig.Other_Diff * Sex +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = full3, family = bernoulli, prior = priors, control = list(adapt_delta = 0.99999, max_treedepth = 12),
+           chains = num.chains, cores = num.cores, seed = semilla)
 
-est_c17 <- data.frame(fixef(c17, probs = c(0.05, 0.95))) # This pulls the parameter estimates for the fixed effects out of the model fit, including 90% credible intervals.
+## School
+
+c17_sc <- brm(formula = Chose_R ~
+             # Predictors of interest
+             
+             Loc.SameValley_Diff * School.z +
+             Loc.City_Diff * School.z +
+             Pueblo.Other_Diff * School.z +
+             Relig.Other_Diff * School.z +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = full3, family = bernoulli, prior = priors, control = list(adapt_delta = 0.9999, max_treedepth = 12),
+           chains = num.chains, cores = num.cores, seed = semilla)
+
+
+## Net income
+
+c17_i <- brm(formula = Chose_R ~
+             # Predictors of interest
+             
+             Loc.SameValley_Diff * NetIncome.z +
+             Loc.City_Diff * NetIncome.z +
+             Pueblo.Other_Diff * NetIncome.z +
+             Relig.Other_Diff * NetIncome.z +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = full3, family = bernoulli, prior = priors, control = list(adapt_delta = 0.999, max_treedepth = 12),
+           chains = num.chains, cores = num.cores, seed = semilla)
+
+
+############## Plot model without controls ##############
+
+est_c17 <- data.frame(fixef(nc17, probs = c(0.05, 0.95))) # This pulls the parameter estimates for the fixed effects out of the model fit, including 90% credible intervals.
 setDT(est_c17, keep.rownames = TRUE)[] # Convert row names into a column for use with the data.table package.
 df_c17 <- data.frame(Variable = est_c17$rn, LI = exp(est_c17$Q5), Est = exp(est_c17$Estimate), HI = exp(est_c17$Q95)) # Convert to a data frame.
 
-matchem <- c("Intercept", "Age.z", "Sexmale", "School.z", "NetIncome.z")
-df_c17_1 <- df_c17[!(df_c17$Variable %in% grep(paste(matchem, collapse = "|"), df_c17$Variable, value = T)), ] # Intercepts and controls are not plotted.
+df_c17_1 <- df_c17[df_c17$Variable != "Intercept", ] # Intercept not plotted
 
 matchem1 <- c("Pueblo.", "Relig.")
 
@@ -164,7 +237,9 @@ df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_Diff1"] <- "Money"
 
 df_c17_1$Type <- factor(df_c17_1$Type, levels = c("Location", "Pueblo or Religion", "Other Characteristics"))
 
-df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("La Paz", "Same Valley", "Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", "Other Religion", "Other Pueblo")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("La Paz", "Same Valley", 
+                                                          "Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", 
+                                                          "Other Religion", "Other Pueblo")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
 ### Plot it
 
@@ -175,7 +250,7 @@ p <- ggplot(df_c17_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Gr
   facet_grid(Type ~ ., scales="free",space = "free_y") + 
   theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
   theme(strip.text.y = element_text(angle = 360))  + 
-  theme(legend.title=element_blank()) +
+  theme(legend.title = element_blank()) +
   coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
   theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
   theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
@@ -194,7 +269,8 @@ part <- part[!is.na(part$Average_Given.Out),] # Not everyone was presented with 
 ##### DATA PREP #####
 
 ### z-score
-part$NetIncome.z <- c(scale(part$NetIncome, center = TRUE, scale = TRUE))
+part$NetIncome_17.z <- c(scale(part$NetIncome_2017, center = TRUE, scale = TRUE))
+part$NetIncome_14.z <- c(scale(part$NetIncome_2014, center = TRUE, scale = TRUE))
 part$Age.z <- c(scale(part$Age, center = TRUE, scale = TRUE))
 part$School.z <- c(scale(part$School_Yrs, center = TRUE, scale = TRUE))
 part$Give_Out.z <- c(scale(part$Average_Given.Out, center = TRUE, scale = TRUE))
@@ -206,22 +282,22 @@ part$Type.Pueblo <- ifelse(part$Type == "Pueblo", 1, 0) # Zero implies that they
 
 
 ### Remove variables not using for analysis
-part1 <- part[ ,!(colnames(part) %in% c("Order", "NetIncome", "Age", "School_Yrs", "Type", "Average_Given.Out"))]
+part1 <- part[ ,!(colnames(part) %in% c("Order", "NetIncome_2017", "NetIncome_2014", "Age", "School_Yrs", "Type", "Average_Given.Out"))]
 
 
 ### Impute: just for one person missing their years of schooling and for people with no religious affiliation (n=3).
 
 # I'll need to tell mice (the function used for imputation) which variables to impute (rows) using which other variables (columns). Start by setting up a matrix full of zeroes, as my default will be to not impute.
-which.mat<-matrix(rep(0,ncol(part1)*nrow(part1)), ncol = ncol(part1), nrow = ncol(part1))
+which.mat <- matrix(rep(0, ncol(part1) * nrow(part1)), ncol = ncol(part1), nrow = ncol(part1))
 rownames(which.mat) <- colnames(part1)
 colnames(which.mat) <- colnames(part1)
 
 # Next step: for variables that need imputing, say which other ones to use in imputation by assigning them 1s.
 
-which.mat["Relig.Other_Diff", ] <- ifelse(colnames(which.mat) %in% c("Age.z", "NetIncome.z", "Population", "School.z", "Sex"), 1, 0) # Whether someone is male or female is often a good predictor of whether they attend church; a useful variable on which to impute here. Also reasonable to expect it to be related to how much school they attended (below). More common for folks in Moseten community to say they are not religious (also fewer churches to choose from there).
-which.mat["School.z", ] <- ifelse(colnames(which.mat) %in% c("Age.z", "NetIncome.z", "Population", "Sex"), 1, 0) # Years in school is predicted by age (because more schooling was available later in time) and sex (females more likely to drop out or not go), population (Interculturales had a high school much earlier), and income (folks who make more may have had more schooling).
+which.mat["Relig.Other_Diff", ] <- ifelse(colnames(which.mat) %in% c("Age.z", "NetIncome_17.z", "Population", "School.z", "Sex"), 1, 0) # Whether someone is male or female is often a good predictor of whether they attend church; a useful variable on which to impute here. Also reasonable to expect it to be related to how much school they attended (below). More common for folks in Moseten community to say they are not religious (also fewer churches to choose from there).
+which.mat["School.z", ] <- ifelse(colnames(which.mat) %in% c("Age.z", "NetIncome_17.z", "Population", "Sex"), 1, 0) # Years in school is predicted by age (because more schooling was available later in time) and sex (females more likely to drop out or not go), population (Interculturales had a high school much earlier), and income (folks who make more may have had more schooling).
 
-these<-rep("", length(part1))
+these <- rep("", length(part1))
 these[which(colnames(part1) %in% row.names(which.mat)[rowSums(which.mat) > 0])]<-"pmm"
 part2 <- mice(part1, method = these, predictorMatrix = which.mat, seed = semilla, m = 10)
 part3 <- complete(part2)
@@ -230,16 +306,16 @@ part3 <- complete(part2)
 ### Convert to factors
 # Relevel factors such that a difference between the two cards is compared to no difference (coded as 0).
 
-part3$Loc.SameValley_Diff<-relevel(as.factor(part3$Loc.SameValley_Diff),"0") 
-part3$Loc.City_Diff<-relevel(as.factor(part3$Loc.City_Diff),"0")
-part3$Pueblo.Other_Diff<-relevel(as.factor(part3$Pueblo.Other_Diff),"0")
-part3$Relig.Other_Diff<-relevel(as.factor(part3$Relig.Other_Diff),"0")
-part3$Good.High_Diff<-relevel(as.factor(part3$Good.High_Diff),"0")
-part3$Good.Med_Diff<-relevel(as.factor(part3$Good.Med_Diff),"0")
-part3$Trust.High_Diff<-relevel(as.factor(part3$Trust.High_Diff),"0")
-part3$Trust.Med_Diff<-relevel(as.factor(part3$Trust.Med_Diff),"0")
-part3$Wealth.High_Diff<-relevel(as.factor(part3$Wealth.High_Diff),"0")
-part3$Wealth.Med_Diff<-relevel(as.factor(part3$Wealth.Med_Diff),"0")
+part3$Loc.SameValley_Diff <- relevel(as.factor(part3$Loc.SameValley_Diff), "0") 
+part3$Loc.City_Diff <- relevel(as.factor(part3$Loc.City_Diff), "0")
+part3$Pueblo.Other_Diff <- relevel(as.factor(part3$Pueblo.Other_Diff), "0")
+part3$Relig.Other_Diff <- relevel(as.factor(part3$Relig.Other_Diff), "0")
+part3$Good.High_Diff <- relevel(as.factor(part3$Good.High_Diff), "0")
+part3$Good.Med_Diff <- relevel(as.factor(part3$Good.Med_Diff), "0")
+part3$Trust.High_Diff <- relevel(as.factor(part3$Trust.High_Diff), "0")
+part3$Trust.Med_Diff <- relevel(as.factor(part3$Trust.Med_Diff), "0")
+part3$Wealth.High_Diff <- relevel(as.factor(part3$Wealth.High_Diff), "0")
+part3$Wealth.Med_Diff <- relevel(as.factor(part3$Wealth.Med_Diff), "0")
 
 
 ##### MODELS #####
@@ -275,14 +351,14 @@ nc14 <- brm(formula = Chose_R ~
 
 #### Controls ####
 
-c14 <- brm(formula = Chose_R ~
+c14_a <- brm(formula = Chose_R ~
                 # Two way interactions: does out-group giving affect preferences for people living at a distance?
-                Loc.SameValley_Diff * Give_Out.z +
-                Loc.City_Diff * Give_Out.z + 
+                Loc.SameValley_Diff * Give_Out.z * Age.z +
+                Loc.City_Diff * Give_Out.z * Age.z + 
                 
              # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
-                Pueblo.Other_Diff * Give_Out.z * Type.Pueblo +
-                Relig.Other_Diff * Give_Out.z * Type.Pueblo +
+                Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * Age.z +
+                Relig.Other_Diff * Give_Out.z * Type.Pueblo * Age.z +
                 
                 # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
                 Good.High_Diff +
@@ -291,27 +367,113 @@ c14 <- brm(formula = Chose_R ~
                 Trust.Med_Diff +
                 Wealth.High_Diff +
                 Wealth.Med_Diff +
-               
-               # Controls
-               Age.z + Sex + School.z + NetIncome.z + Nonanonymous_Play +
                 
                 # Random effects 
                 (1|RID) + (1|Population) + (1|Version),
            
               data = part3, family = bernoulli, prior = priors, seed = semilla,
+              chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.999999, stepsize = 0.01))
+
+c14_se <- brm(formula = Chose_R ~
+             # Two way interactions: does out-group giving affect preferences for people living at a distance?
+             Loc.SameValley_Diff * Give_Out.z * Sex +
+             Loc.City_Diff * Give_Out.z * Sex + 
+             
+             # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+             Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * Sex +
+             Relig.Other_Diff * Give_Out.z * Type.Pueblo * Sex +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects 
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = part3, family = bernoulli, prior = priors, seed = semilla,
+           chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.99999, stepsize = 0.01))
+
+c14_sc <- brm(formula = Chose_R ~
+                # Two way interactions: does out-group giving affect preferences for people living at a distance?
+                Loc.SameValley_Diff * Give_Out.z * School.z +
+                Loc.City_Diff * Give_Out.z * School.z + 
+                
+                # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+                Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * School.z +
+                Relig.Other_Diff * Give_Out.z * Type.Pueblo * School.z +
+                
+                # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+                Good.High_Diff +
+                Good.Med_Diff +
+                Trust.High_Diff +
+                Trust.Med_Diff +
+                Wealth.High_Diff +
+                Wealth.Med_Diff +
+                
+                # Random effects 
+                (1|RID) + (1|Population) + (1|Version),
+              
+              data = part3, family = bernoulli, prior = priors, seed = semilla,
               chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.99999, stepsize = 0.01))
+
+c14_i <- brm(formula = Chose_R ~
+                # Two way interactions: does out-group giving affect preferences for people living at a distance?
+                Loc.SameValley_Diff * Give_Out.z * NetIncome_17.z +
+                Loc.City_Diff * Give_Out.z * NetIncome_17.z + 
+                
+                # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+                Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_17.z +
+                Relig.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_17.z +
+                
+                # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+                Good.High_Diff +
+                Good.Med_Diff +
+                Trust.High_Diff +
+                Trust.Med_Diff +
+                Wealth.High_Diff +
+                Wealth.Med_Diff +
+  
+                # Random effects 
+                (1|RID) + (1|Population) + (1|Version),
+              
+              data = part3, family = bernoulli, prior = priors, seed = semilla,
+              chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.99999, stepsize = 0.01))
+
+c14_p <- brm(formula = Chose_R ~
+               # Two way interactions: does out-group giving affect preferences for people living at a distance?
+               Loc.SameValley_Diff * Give_Out.z * Nonanonymous_Play +
+               Loc.City_Diff * Give_Out.z * Nonanonymous_Play + 
+               
+               # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+               Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * Nonanonymous_Play +
+               Relig.Other_Diff * Give_Out.z * Type.Pueblo * Nonanonymous_Play +
+               
+               # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+               Good.High_Diff +
+               Good.Med_Diff +
+               Trust.High_Diff +
+               Trust.Med_Diff +
+               Wealth.High_Diff +
+               Wealth.Med_Diff +
+
+               # Random effects 
+               (1|RID) + (1|Population) + (1|Version),
+             
+             data = part3, family = bernoulli, prior = priors, seed = semilla,
+             chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.999999, stepsize = 0.01))
 
 
 ############## Plot model with controls ##############
 
-# NOT COMPLETE
-
-est_c14 <- data.frame(fixef(c14, probs = c(0.05, 0.95))) # This pulls the parameter estimates for the fixed effects out of the model fit, including 90% credible intervals.
+est_c14 <- data.frame(fixef(nc14, probs = c(0.05, 0.95))) # This pulls the parameter estimates for the fixed effects out of the model fit, including 90% credible intervals.
 setDT(est_c14, keep.rownames = TRUE)[] # Convert row names into a column for use with the data.table package.
 df_c14 <- data.frame(Variable = est_c14$rn, LI = exp(est_c14$Q5), Est = exp(est_c14$Estimate), HI = exp(est_c14$Q95)) # Convert to a data frame.
 
-matchem <- c("Intercept", "Age.z", "Sexmale", "School.z", "NetIncome.z", "Nonanonymous_Play")
-df_c14_1 <- df_c14[!(df_c14$Variable %in% grep(paste(matchem, collapse = "|"), df_c14$Variable, value = T)), ] # Intercepts and controls are not plotted.
+df_c14_1 <- df_c14[df_c14$Variable != "Intercept", ] # Intercept is not plotted.
 
 matchem1 <- c("Pueblo.", "Relig.")
 
@@ -344,6 +506,7 @@ df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_Diff1"] <- "Lots of Money"
 df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_DiffM1"] <- "Money"
 df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_Diff1"] <- "Money"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z"] <- "Avg. Given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo"] <- "Pueblo Out-group"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1:Give_Out.z"] <- "Same Valley * Avg. Given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1:Give_Out.z"] <- "Same Valley * Avg. Given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_DiffM1"] <- "La Paz * Avg. Given"
@@ -365,8 +528,9 @@ df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_Dif
 
 df_c14_1$Type <- factor(df_c14_1$Type, levels = c("Location", "Pueblo or Religion", "Other Characteristics"))
 
-# Things need to be re-ordered on the figure still.
-#df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("La Paz * Avg. Given", "La Paz", "Same Valley * Avg. Given", "Same Valley", "Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", "Other Religion", "Other Pueblo")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("La Paz * Avg. Given", "Same Valley * Avg. Given", "La Paz", "Same Valley",
+"Other Religion", "Other Pueblo", "Other Religion * Avg. Given", "Other Pueblo * Avg. Given", "Other Religion * Pueblo Out-group", "Other Pueblo * Pueblo Out-group", "Other Religion * Avg. Given * Pueblo Out-group", "Other Pueblo * Avg. Given * Pueblo Out-group",
+"Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", "Pueblo Out-group", "Avg. Given", "Avg. Given * Pueblo Out-group")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
 ### Plot it
 
@@ -374,17 +538,71 @@ p <- ggplot(df_c14_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Gr
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
   geom_linerange(size = 1, position = position_dodge(-0.25)) + 
   geom_point(size = 2, position = position_dodge(-0.25)) +
-  facet_grid(Type ~ ., scales="free",space = "free_y") + 
+  facet_grid(Type ~ ., scales = "free", space = "free_y") + 
   theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
   theme(strip.text.y = element_text(angle = 360))  + 
-  theme(legend.title=element_blank()) +
+  theme(legend.title = element_blank()) +
   coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
   theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
   theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
   labs(y = "Odds Ratios (ORs)")
 
-ggsave("Bolivia_Card Choice and Game Play_Non-Standardized.pdf", p, height=8, width=14)
+ggsave("Bolivia_Card Choice and Game Play_Non-Standardized.pdf", p, height=8, width=14) # It will throw you an error here about position_dodge because some estimates don't come in left-right pairs (e.g., Average Given), as the estimate is not connected to card chosen.
 
+##### CHECK ROLE AND RELATIONSHIP OF 2014 AND 2017 INCOMES #####
+cor(part3$NetIncome_17.z, part3$NetIncome_14.z) # Totally unrelated. Why? Collected during different months, for one.
+
+### Re-run model with 2014 net income data: is that the better predictor? ###
+
+c14_ni14 <- brm(formula = Chose_R ~
+             # Two way interactions: does out-group giving affect preferences for people living at a distance?
+             Loc.SameValley_Diff * Give_Out.z * NetIncome_14.z +
+             Loc.City_Diff * Give_Out.z * NetIncome_14.z + 
+             
+             # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+             Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_14.z +
+             Relig.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_14.z +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects 
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = part3, family = bernoulli, prior = priors, seed = semilla,
+           chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.99999, stepsize = 0.01))
+
+### What about difference between the two? ###
+
+part3$NetIncome_Diff <- part3$NetIncome_17.z - part3$NetIncome_14.z
+
+c14_nidiff <- brm(formula = Chose_R ~
+             # Two way interactions: does out-group giving affect preferences for people living at a distance?
+             Loc.SameValley_Diff * Give_Out.z * NetIncome_Diff +
+             Loc.City_Diff * Give_Out.z * NetIncome_Diff + 
+             
+             # Three way interactions: given folks either knew the pueblo indigena or religious affiliation of recipients in the 2014-15 game, how much did they give, and is that related to preferences expressed in the choice task in 2017?
+             Pueblo.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_Diff +
+             Relig.Other_Diff * Give_Out.z * Type.Pueblo * NetIncome_Diff +
+             
+             # Marginal effects: the role of other things important to partner choice (see Pisor & Gurven 2018)
+             Good.High_Diff +
+             Good.Med_Diff +
+             Trust.High_Diff +
+             Trust.Med_Diff +
+             Wealth.High_Diff +
+             Wealth.Med_Diff +
+             
+             # Random effects 
+             (1|RID) + (1|Population) + (1|Version),
+           
+           data = part3, family = bernoulli, prior = priors, seed = semilla,
+           chains = num.chains, cores = num.cores, control = list(adapt_delta = 0.99999, stepsize = 0.01))
 
 ######################################## OPTION 2 ########################################
 
