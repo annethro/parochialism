@@ -243,12 +243,16 @@ df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("La Paz", "Same Valley
 
 ### Plot it
 
+cols <- c("Left" = "orange3", "Right" = "royalblue4")
+
 p <- ggplot(df_c17_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
   geom_linerange(size = 1, position = position_dodge(-0.25)) + 
   geom_point(size = 2, position = position_dodge(-0.25)) +
   facet_grid(Type ~ ., scales="free",space = "free_y") + 
   theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
+  scale_y_log10() +
+  scale_color_manual(values = cols) +
   theme(strip.text.y = element_text(angle = 360))  + 
   theme(legend.title = element_blank()) +
   coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
@@ -534,6 +538,8 @@ df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("La Paz * Avg. Given",
 
 ### Plot it
 
+cols <- c("Left" = "orange3", "Right" = "royalblue4")
+
 p <- ggplot(df_c14_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
   geom_linerange(size = 1, position = position_dodge(-0.25)) + 
@@ -541,6 +547,8 @@ p <- ggplot(df_c14_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Gr
   facet_grid(Type ~ ., scales = "free", space = "free_y") + 
   theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
   theme(strip.text.y = element_text(angle = 360))  + 
+  scale_y_log10() +
+  scale_colour_manual(values = cols) +
   theme(legend.title = element_blank()) +
   coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
   theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
