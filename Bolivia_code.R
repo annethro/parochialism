@@ -53,7 +53,7 @@ full2 <- mice(full1, method = these, predictorMatrix = which.mat, seed = semilla
 full3 <- complete(full2)
 
 ### Convert to factors
-# Relevel factors such that the absence of a level on the two cards is compared to the presence of that level, either on the left (-1) or on the right (1)
+# Relevel factors such that the absence of a level on the two cards is compared to the presence of that level, either on the left (-1) or on the right (1). In other words, 0 becomes the contrast level, and by coding these variables as factors, brms will automatically estimate parameters for -1 and 1.
 
 full3$Loc.SameValley_Diff <- relevel(as.factor(full3$Loc.SameValley_Diff), "0")
 full3$Loc.City_Diff <- relevel(as.factor(full3$Loc.City_Diff), "0")
@@ -241,11 +241,34 @@ df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("La Paz", "Same Valley
                                                           "Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", 
                                                           "Other Religion", "Other Pueblo")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
-### Plot it
+# To make the plot easier to digest for the reader, we remove the left-side estimates for the plot in the main text; the plot with left-side estimates included can be found in the supplement.
+
+df_c17_ms <- df_c17_1[df_c17_1$Group == 'Right',]
+
+### MAIN TEXT PLOT
+
+mtp <- ggplot(df_c17_ms, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
+  geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
+  geom_linerange(size = 1, position = position_dodge(-0.25)) + 
+  geom_point(size = 2, position = position_dodge(-0.25)) +
+  facet_grid(Type ~ ., scales="free",space = "free_y") + 
+  theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
+  scale_y_log10() + #Plotting on a log scale to make the parameters (on an OR scale) more interpretable.
+  scale_color_manual(values = "royalblue4") +
+  theme(strip.text.y = element_text(angle = 360))  + 
+  theme(legend.position = "none") +
+  coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+  theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
+  theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
+  labs(y = "Odds Ratios (ORs)")
+
+ggsave("Bolivia_Card Choice_Non-Standardized.pdf", mtp, height=8, width=14)
+
+### SUPPLEMENT PLOT
 
 cols <- c("Left" = "orange3", "Right" = "royalblue4")
 
-p <- ggplot(df_c17_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
+sp <- ggplot(df_c17_1, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
   geom_linerange(size = 1, position = position_dodge(-0.25)) + 
   geom_point(size = 2, position = position_dodge(-0.25)) +
@@ -260,7 +283,7 @@ p <- ggplot(df_c17_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Gr
   theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
   labs(y = "Odds Ratios (ORs)")
 
-ggsave("Bolivia_Card Choice_Non-Standardized.pdf", p, height=8, width=14)
+ggsave("Bolivia_Card Choice_Non-Standardized_Supp.pdf", sp, height=8, width=14)
 
 
 ############################################################################
