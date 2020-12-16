@@ -264,6 +264,54 @@ mtp <- ggplot(df_c17_ms, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color 
 
 ggsave("Bolivia_Card Choice_Non-Standardized.pdf", mtp, height=8, width=14)
 
+################################################################################# Cody draft
+  df_c17_1$Type <- as.character(df_c17_1$Type)
+  df_c17_1$Type[which(df_c17_1$Type=="Pueblo or Religion")] <- "Group"
+  df_c17_1$Type[which(df_c17_1$Type=="Other Characteristics")] <- "Other"
+
+  df_c17_1$Type<-factor(df_c17_1$Type)
+  df_c17_1$Type<-factor(df_c17_1$Type, levels = c("Location", "Group", "Other"))
+
+  
+  df_c17_1$Variable <- as.character(df_c17_1$Variable)
+  df_c17_1$Variable[which(df_c17_1$Variable=="Same Valley")] <- "Target lives in a different nearby community"
+  df_c17_1$Variable[which(df_c17_1$Variable=="La Paz")] <-      "Target lives in far away in La Paz"
+
+  df_c17_1$Variable[which(df_c17_1$Variable=="Other Religion")] <- "Target religion is different from respondent"
+  df_c17_1$Variable[which(df_c17_1$Variable=="Other Pueblo")] <-   "Target pueblo indigena is different from respondent"
+
+  df_c17_1$Variable[which(df_c17_1$Variable=="Lots of Money")] <- "Target has a lot of money"
+  df_c17_1$Variable[which(df_c17_1$Variable=="Money")] <- "Target has some money"
+
+  df_c17_1$Variable[which(df_c17_1$Variable=="Good")] <- "Target is a good person"
+  df_c17_1$Variable[which(df_c17_1$Variable=="Very Good")] <- "Target is a very good person"
+
+  df_c17_1$Variable[which(df_c17_1$Variable=="Trustw.")] <- "Target is trustworthy"
+  df_c17_1$Variable[which(df_c17_1$Variable=="Very Trustw.")] <- "Target is very trustworthy"
+
+  df_c17_1$Variable<-factor(df_c17_1$Variable)
+
+  df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Target lives in a different nearby community", "Target lives in far away in La Paz",
+                                                        	"Target religion is different from respondent", "Target pueblo indigena is different from respondent",
+                                                        	"Target has some money", "Target has a lot of money",
+                                                          "Target is a good person", "Target is a very good person",
+                                                          "Target is trustworthy", "Target is very trustworthy"
+                                                          ))
+
+    df_c17_1_R <- df_c17_1[which(df_c17_1$Group=="Right"),]               
+
+p <- ggplot(df_c17_1_R,aes(x=Variable,y=Est,ymin=LI,ymax=HI, color=Type))+ 
+     geom_linerange(size=1)+geom_point(size=2)+
+     geom_hline(aes(yintercept=1),color="blue",linetype="dashed")+
+     facet_grid(Type ~ . ,scales="free", space="free") + scale_y_log10()+
+     labs(y="Odds of selecting the card", x="Card attributes") + theme(strip.text.x = element_text(size=14,face="bold"), 
+     strip.text.y = element_text(size=14,face="bold"),axis.text=element_text(size=12),axis.title=element_text(size=14,
+     face="bold"))+theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+     scale_color_manual(values=c("Location"="royalblue4","Group"="orange3","Other"="black")) + theme(legend.position = "none")
+
+   p  
+ggsave("Bolivia_CardChoice_Non-Standardized_CR.pdf", p, height=3.5, width=9)
+
 ### SUPPLEMENT PLOT
 
 cols <- c("Left" = "orange3", "Right" = "royalblue4")
