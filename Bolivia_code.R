@@ -206,132 +206,74 @@ df_c17_1 <- df_c17[df_c17$Variable != "Intercept", ] # Intercept not plotted
 
 matchem1 <- c("Pueblo.", "Relig.")
 
-df_c17_1$Type <- "Other Characteristics"
+df_c17_1$Type <- "Other"
 df_c17_1$Type[grep("Loc.", df_c17_1$Variable)] <- "Location"
-df_c17_1$Type[grep(paste(matchem1, collapse = "|"), df_c17_1$Variable)] <- "Pueblo or Religion"
+df_c17_1$Type[grep(paste(matchem1, collapse = "|"), df_c17_1$Variable)] <- "Group"
 
-df_c17_1$Group <- "Right"
-df_c17_1$Group[grep("DiffM1", df_c17_1$Variable)] <- "Left"
+df_c17_1$Side <- "Right"
+df_c17_1$Side[grep("DiffM1", df_c17_1$Variable)] <- "Left"
 
+df_c17_1$Type<-factor(df_c17_1$Type, levels = c("Location", "Group", "Other"))
 
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Same Valley"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_Diff1"] <- "Same Valley"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_DiffM1"] <- "La Paz"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_Diff1"] <- "La Paz"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Other Pueblo"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Other Pueblo"
-df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_DiffM1"] <- "Other Religion"
-df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_Diff1"] <- "Other Religion"
-df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_DiffM1"] <- "Very Good"
-df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_Diff1"] <- "Very Good"
-df_c17_1$Variable[df_c17_1$Variable %in% "Good.Med_DiffM1"] <- "Good"
-df_c17_1$Variable[df_c17_1$Variable %in% "Good.Med_Diff1"] <- "Good"
-df_c17_1$Variable[df_c17_1$Variable %in% "Trust.High_DiffM1"] <- "Very Trustw."
-df_c17_1$Variable[df_c17_1$Variable %in% "Trust.High_Diff1"] <- "Very Trustw."
-df_c17_1$Variable[df_c17_1$Variable %in% "Trust.Med_DiffM1"] <- "Trustw."
-df_c17_1$Variable[df_c17_1$Variable %in% "Trust.Med_Diff1"] <- "Trustw."
-df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.High_DiffM1"] <- "Lots of Money"
-df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.High_Diff1"] <- "Lots of Money"
-df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_DiffM1"] <- "Money"
-df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_Diff1"] <- "Money"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter lives in a different  nearby community"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a different  nearby community"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives  far away in La Paz"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives  far away in La Paz"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter pueblo indígena is  different from decider"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter pueblo indígena is  different from decider"
+df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter religion is  different from decider"
+df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_Diff1"] <- "Alter religion is  different from decider"
+df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_DiffM1"] <- "Alter is a very good person"
+df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_Diff1"] <- "Alter is a very good person"
+df_c17_1$Variable[df_c17_1$Variable %in% "Good.Med_DiffM1"] <- "Alter is a good person"
+df_c17_1$Variable[df_c17_1$Variable %in% "Good.Med_Diff1"] <- "Alter is a good person"
+df_c17_1$Variable[df_c17_1$Variable %in% "Trust.High_DiffM1"] <- "Alter is very trustworthy"
+df_c17_1$Variable[df_c17_1$Variable %in% "Trust.High_Diff1"] <- "Alter is very trustworthy"
+df_c17_1$Variable[df_c17_1$Variable %in% "Trust.Med_DiffM1"] <- "Alter is trustworthy"
+df_c17_1$Variable[df_c17_1$Variable %in% "Trust.Med_Diff1"] <- "Alter is trustworthy"
+df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.High_DiffM1"] <- "Alter has a lot of money"
+df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.High_Diff1"] <- "Alter has a lot of money"
+df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_DiffM1"] <- "Alter has some money"
+df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_Diff1"] <- "Alter has some money"
 
-df_c17_1$Type <- factor(df_c17_1$Type, levels = c("Location", "Pueblo or Religion", "Other Characteristics"))
+df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Alter lives  far away in La Paz", "Alter lives in a different  nearby community",
+        "Alter pueblo indígena is  different from decider", "Alter religion is  different from decider", 
+        "Alter has some money", "Alter has a lot of money", "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy"
+)) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
-df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("La Paz", "Same Valley", 
-                                                          "Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", 
-                                                          "Other Religion", "Other Pueblo")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+levels(df_c17_1$Variable) <- gsub("  ", "\n", levels(df_c17_1$Variable))
 
 # To make the plot easier to digest for the reader, we remove the left-side estimates for the plot in the main text; the plot with left-side estimates included can be found in the supplement.
 
-df_c17_ms <- df_c17_1[df_c17_1$Group == 'Right',]
+df_c17_R <- df_c17_1[df_c17_1$Side == 'Right',]
 
-### MAIN TEXT PLOT
+### MAIN TEXT PLOT (right only)
 
-mtp <- ggplot(df_c17_ms, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
-  geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
-  geom_linerange(size = 1, position = position_dodge(-0.25)) + 
-  geom_point(size = 2, position = position_dodge(-0.25)) +
-  facet_grid(Type ~ ., scales="free",space = "free_y") + 
-  theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
-  scale_y_log10() + #Plotting on a log scale to make the parameters (on an OR scale) more interpretable.
-  scale_color_manual(values = "royalblue4") +
-  theme(strip.text.y = element_text(angle = 360))  + 
-  theme(legend.position = "none") +
-  coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
-  theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
-  theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
-  labs(y = "Odds Ratios (ORs)")
-
-ggsave("Bolivia_Card Choice_Non-Standardized.pdf", mtp, height=8, width=14)
-
-################################################################################# Cody draft
-  df_c17_1$Type <- as.character(df_c17_1$Type)
-  df_c17_1$Type[which(df_c17_1$Type=="Pueblo or Religion")] <- "Group"
-  df_c17_1$Type[which(df_c17_1$Type=="Other Characteristics")] <- "Other"
-
-  df_c17_1$Type<-factor(df_c17_1$Type)
-  df_c17_1$Type<-factor(df_c17_1$Type, levels = c("Location", "Group", "Other"))
-
-  
-  df_c17_1$Variable <- as.character(df_c17_1$Variable)
-  df_c17_1$Variable[which(df_c17_1$Variable=="Same Valley")] <- "Target lives in a different nearby community"
-  df_c17_1$Variable[which(df_c17_1$Variable=="La Paz")] <-      "Target lives in far away in La Paz"
-
-  df_c17_1$Variable[which(df_c17_1$Variable=="Other Religion")] <- "Target religion is different from respondent"
-  df_c17_1$Variable[which(df_c17_1$Variable=="Other Pueblo")] <-   "Target pueblo indigena is different from respondent"
-
-  df_c17_1$Variable[which(df_c17_1$Variable=="Lots of Money")] <- "Target has a lot of money"
-  df_c17_1$Variable[which(df_c17_1$Variable=="Money")] <- "Target has some money"
-
-  df_c17_1$Variable[which(df_c17_1$Variable=="Good")] <- "Target is a good person"
-  df_c17_1$Variable[which(df_c17_1$Variable=="Very Good")] <- "Target is a very good person"
-
-  df_c17_1$Variable[which(df_c17_1$Variable=="Trustw.")] <- "Target is trustworthy"
-  df_c17_1$Variable[which(df_c17_1$Variable=="Very Trustw.")] <- "Target is very trustworthy"
-
-  df_c17_1$Variable<-factor(df_c17_1$Variable)
-
-  df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Target lives in a different nearby community", "Target lives in far away in La Paz",
-                                                        	"Target religion is different from respondent", "Target pueblo indigena is different from respondent",
-                                                        	"Target has some money", "Target has a lot of money",
-                                                          "Target is a good person", "Target is a very good person",
-                                                          "Target is trustworthy", "Target is very trustworthy"
-                                                          ))
-
-    df_c17_1_R <- df_c17_1[which(df_c17_1$Group=="Right"),]               
-
-p <- ggplot(df_c17_1_R,aes(x=Variable,y=Est,ymin=LI,ymax=HI, color=Type))+ 
-     geom_linerange(size=1)+geom_point(size=2)+
-     geom_hline(aes(yintercept=1),color="blue",linetype="dashed")+
-     facet_grid(Type ~ . ,scales="free", space="free") + scale_y_log10()+
-     labs(y="Odds of selecting the card", x="Card attributes") + theme(strip.text.x = element_text(size=14,face="bold"), 
-     strip.text.y = element_text(size=14,face="bold"),axis.text=element_text(size=12),axis.title=element_text(size=14,
-     face="bold"))+theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
-     scale_color_manual(values=c("Location"="royalblue4","Group"="orange3","Other"="black")) + theme(legend.position = "none")
+p <- ggplot(df_c17_R, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Type)) + 
+     geom_linerange(size = 1) + geom_point(size = 2) +
+     geom_hline(aes(yintercept = 1), color = "blue", linetype = "dashed") +
+     facet_grid(Type ~ . , scales = "free_y", space = "free_y") + scale_y_log10() +
+     labs(y = "Odds of selecting the card", x = "Card attributes") + theme(strip.text.x = element_text(size = 14 , face = "bold"), 
+     strip.text.y = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14,
+     face = "bold")) + theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+     scale_color_manual(values = c("Location" = "royalblue4", "Group" = "orange3", "Other" = "black")) + theme(legend.position = "none")
 
    p  
-ggsave("Bolivia_CardChoice_Non-Standardized_CR.pdf", p, height=3.5, width=9)
+ggsave("Bolivia_CardChoice_Non-Standardized.pdf", p, height = 5, width = 9)
 
-### SUPPLEMENT PLOT
+### SUPPLEMENT PLOT (left and right)
 
-cols <- c("Left" = "orange3", "Right" = "royalblue4")
-
-sp <- ggplot(df_c17_1, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
+sp <- ggplot(df_c17_1, aes(x = Variable, y = Est, ymin = LI, ymax = HI)) + 
+  geom_linerange(size = 1, position = position_dodge2(width = 0.25), color = c(rep(c("royalblue1", "royalblue4"), 2), rep(c("orange1", "orange3"), 2), rep(c("gray50", "black"), 6))) + 
+  geom_point(size = 2, position = position_dodge2(width = 0.25), color = c(rep(c("royalblue1", "royalblue4"), 2), rep(c("orange1", "orange3"), 2), rep(c("gray50", "black"), 6))) +
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
-  geom_linerange(size = 1, position = position_dodge(-0.25)) + 
-  geom_point(size = 2, position = position_dodge(-0.25)) +
-  facet_grid(Type ~ ., scales="free",space = "free_y") + 
-  theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
-  scale_y_log10() +
-  scale_color_manual(values = cols) +
-  theme(strip.text.y = element_text(angle = 360))  + 
-  theme(legend.title = element_blank()) +
-  coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
-  theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
-  theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
-  labs(y = "Odds Ratios (ORs)")
+  facet_grid(Type ~ . , scales = "free", space = "free") + scale_y_log10() +
+  labs(y = "Odds of selecting the card", x = "Card attributes") + theme(strip.text.x = element_text(size = 14 , face = "bold"), 
+  strip.text.y = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold")) + 
+  theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+  theme(legend.position = "none")
 
-ggsave("Bolivia_Card Choice_Non-Standardized_Supp.pdf", sp, height=8, width=14)
+ggsave("Bolivia_Card Choice_Non-Standardized_Supp.pdf", sp, height = 8, width = 14)
 
 
 ############################################################################
@@ -552,81 +494,82 @@ df_c14_1 <- df_c14[df_c14$Variable != "Intercept", ] # Intercept is not plotted.
 
 matchem1 <- c("Pueblo.", "Relig.")
 
-df_c14_1$Type <- "Other Characteristics"
+df_c14_1$Type <- "Other"
 df_c14_1$Type[grep("Loc.", df_c14_1$Variable)] <- "Location"
-df_c14_1$Type[grep(paste(matchem1, collapse = "|"), df_c14_1$Variable)] <- "Pueblo or Religion"
+df_c14_1$Type[grep(paste(matchem1, collapse = "|"), df_c14_1$Variable)] <- "Group"
 
-df_c14_1$Group <- "Right"
-df_c14_1$Group[grep("DiffM1", df_c14_1$Variable)] <- "Left"
+df_c14_1$Side <- "Right"
+df_c14_1$Side[grep("DiffM1", df_c14_1$Variable)] <- "Left"
 
+df_c14_1$Type<-factor(df_c14_1$Type, levels = c("Location", "Group", "Other"))
 
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Same Valley"
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1"] <- "Same Valley"
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_DiffM1"] <- "La Paz"
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_Diff1"] <- "La Paz"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Other Pueblo"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1"] <- "Other Pueblo"
-df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_DiffM1"] <- "Other Religion"
-df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_Diff1"] <- "Other Religion"
-df_c14_1$Variable[df_c14_1$Variable %in% "Good.High_DiffM1"] <- "Very Good"
-df_c14_1$Variable[df_c14_1$Variable %in% "Good.High_Diff1"] <- "Very Good"
-df_c14_1$Variable[df_c14_1$Variable %in% "Good.Med_DiffM1"] <- "Good"
-df_c14_1$Variable[df_c14_1$Variable %in% "Good.Med_Diff1"] <- "Good"
-df_c14_1$Variable[df_c14_1$Variable %in% "Trust.High_DiffM1"] <- "Very Trustw."
-df_c14_1$Variable[df_c14_1$Variable %in% "Trust.High_Diff1"] <- "Very Trustw."
-df_c14_1$Variable[df_c14_1$Variable %in% "Trust.Med_DiffM1"] <- "Trustw."
-df_c14_1$Variable[df_c14_1$Variable %in% "Trust.Med_Diff1"] <- "Trustw."
-df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_DiffM1"] <- "Lots of Money"
-df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_Diff1"] <- "Lots of Money"
-df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_DiffM1"] <- "Money"
-df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_Diff1"] <- "Money"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z"] <- "Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo"] <- "Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1:Give_Out.z"] <- "Same Valley * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1:Give_Out.z"] <- "Same Valley * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_DiffM1"] <- "La Paz * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_Diff1"] <- "La Paz * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1"] <- "Other Pueblo * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1"] <- "Other Pueblo * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_DiffM1"] <- "Other Religion * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_Diff1"] <- "Other Religion * Avg. Given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1:Type.Pueblo"] <- "Other Pueblo * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1:Type.Pueblo"] <- "Other Pueblo * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_DiffM1"] <- "Other Religion * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_Diff1"] <- "Other Religion * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo"] <- "Avg. Given * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1:Type.Pueblo"] <- "Other Pueblo * Avg. Given * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1:Type.Pueblo"] <- "Other Pueblo * Avg. Given * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_DiffM1"] <- "Other Religion * Avg. Given * Pueblo Out-group"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_Diff1"] <- "Other Religion * Avg. Given * Pueblo Out-group"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter lives in a different  nearby community"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a different  nearby community"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives  far away in La Paz"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives  far away in La Paz"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter pueblo indígena is  different from decider"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter pueblo indígena is  different from decider"
+df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter religion is  different from decider"
+df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_Diff1"] <- "Alter religion is  different from decider"
+df_c14_1$Variable[df_c14_1$Variable %in% "Good.High_DiffM1"] <- "Alter is a very good person"
+df_c14_1$Variable[df_c14_1$Variable %in% "Good.High_Diff1"] <- "Alter is a very good person"
+df_c14_1$Variable[df_c14_1$Variable %in% "Good.Med_DiffM1"] <- "Alter is a good person"
+df_c14_1$Variable[df_c14_1$Variable %in% "Good.Med_Diff1"] <- "Alter is a good person"
+df_c14_1$Variable[df_c14_1$Variable %in% "Trust.High_DiffM1"] <- "Alter is very trustworthy"
+df_c14_1$Variable[df_c14_1$Variable %in% "Trust.High_Diff1"] <- "Alter is very trustworthy"
+df_c14_1$Variable[df_c14_1$Variable %in% "Trust.Med_DiffM1"] <- "Alter is trustworthy"
+df_c14_1$Variable[df_c14_1$Variable %in% "Trust.Med_Diff1"] <- "Alter is trustworthy"
+df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_DiffM1"] <- "Alter has a lot of money"
+df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_Diff1"] <- "Alter has a lot of money"
+df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_DiffM1"] <- "Alter has some money"
+df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_Diff1"] <- "Alter has some money"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z"] <- "Average given to out-group alters"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo"] <- "Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1:Give_Out.z"] <- "Nearby community *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1:Give_Out.z"] <- "Nearby community *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_DiffM1"] <- "La Paz * Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_Diff1"] <- "La Paz * Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1"] <- "Different pueblo indígena *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1"] <- "Different pueblo indígena *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_DiffM1"] <- "Different religion *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_Diff1"] <- "Different religion *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1:Type.Pueblo"] <- "Different pueblo indígena *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1:Type.Pueblo"] <- "Different pueblo indígena *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_DiffM1"] <- "Different religion *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_Diff1"] <- "Different religion *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo"] <- "Average given *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1:Type.Pueblo"] <- "Diff. pueblo * Avg. given * Pueblo out-group"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1:Type.Pueblo"] <- "Diff. pueblo * Avg. given * Pueblo out-group"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_DiffM1"] <- "Diff. religion * Avg. given * Pueblo out-group"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_Diff1"] <- "Diff. religion * Avg. given * Pueblo out-group"
 
+df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("Alter lives  far away in La Paz", "La Paz * Average given", "Alter lives in a different  nearby community", "Nearby community *  Average given",
+                                                          
+"Alter pueblo indígena is  different from decider",  "Different pueblo indígena *  Average given", "Diff. pueblo * Avg. given * Pueblo out-group", "Different pueblo indígena *  Out-group is pueblo indígena", 
 
-df_c14_1$Type <- factor(df_c14_1$Type, levels = c("Location", "Pueblo or Religion", "Other Characteristics"))
+"Alter religion is  different from decider", "Different religion *  Average given", "Diff. religion * Avg. given * Pueblo out-group", "Different religion *  Out-group is pueblo indígena", 
 
-df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("La Paz * Avg. Given", "Same Valley * Avg. Given", "La Paz", "Same Valley",
-"Other Religion", "Other Pueblo", "Other Religion * Avg. Given", "Other Pueblo * Avg. Given", "Other Religion * Pueblo Out-group", "Other Pueblo * Pueblo Out-group", "Other Religion * Avg. Given * Pueblo Out-group", "Other Pueblo * Avg. Given * Pueblo Out-group",
-"Lots of Money", "Money", "Very Trustw.", "Trustw.", "Very Good", "Good", "Pueblo Out-group", "Avg. Given", "Avg. Given * Pueblo Out-group")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+"Out-group is pueblo indígena", "Average given to out-group alters", "Average given *  Out-group is pueblo indígena", "Alter has some money","Alter has a lot of money",  "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+
+levels(df_c14_1$Variable) <- gsub("  ", "\n", levels(df_c14_1$Variable))
+
 
 ### Plot it
 
-cols <- c("Left" = "orange3", "Right" = "royalblue4")
-
-p <- ggplot(df_c14_1,aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Group)) + 
+p <- ggplot(df_c14_1, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = Side)) + 
+  
   geom_hline(aes(yintercept = 1), color = "gray50", linetype = "dashed") +
-  geom_linerange(size = 1, position = position_dodge(-0.25)) + 
-  geom_point(size = 2, position = position_dodge(-0.25)) +
-  facet_grid(Type ~ ., scales = "free", space = "free_y") + 
-  theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold"), panel.grid = element_blank()) + 
-  theme(strip.text.y = element_text(angle = 360))  + 
-  scale_y_log10() +
-  scale_colour_manual(values = cols) +
-  theme(legend.title = element_blank()) +
-  coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
-  theme(panel.background = element_rect(fill = "white", color = "black", linetype = "solid")) + 
-  theme(strip.background = element_rect(fill = "white", color = "black", linetype = "solid")) +
-  labs(y = "Odds Ratios (ORs)")
-
-ggsave("Bolivia_Card Choice and Game Play_Non-Standardized.pdf", p, height=8, width=14) # It will throw you an error here about position_dodge because some estimates don't come in left-right pairs (e.g., Average Given), as the estimate is not connected to card chosen.
+  
+  geom_linerange(size = 1, position = position_dodge2(width = 0.25), color = c(rep(c("royalblue1", "royalblue4"), 4), rep(c("orange1", "orange3"), 8), rep(c("black"), 3), rep(c("gray50", "black"), 6))) + 
+  geom_point(size = 2, position = position_dodge2(width = 0.25), color = c(rep(c("royalblue1", "royalblue4"), 4), rep(c("orange1", "orange3"), 8), rep(c("black"), 3), rep(c("gray50", "black"), 6))) +
+  
+  facet_grid(Type ~ . , scales = "free", space = "free") + scale_y_log10() +
+  labs(y = "Odds of selecting the card", x = "Card attributes") + theme(strip.text.x = element_text(size = 14 , face = "bold"), 
+  strip.text.y = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14, face = "bold")) + 
+  theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+  theme(legend.position = "none")
+  
+ggsave("Bolivia_Card Choice and Game Play_Non-Standardized.pdf", p, height=9, width=6.5) # It will throw you an error here about position_dodge because some estimates don't come in left-right pairs (e.g., Average Given), as the estimate is not connected to card chosen.
 
 ##### CHECK ROLE AND RELATIONSHIP OF 2014 AND 2017 INCOMES #####
 cor(part3$NetIncome_17.z, part3$NetIncome_14.z) # Totally unrelated. Why? Collected during different months, for one.
