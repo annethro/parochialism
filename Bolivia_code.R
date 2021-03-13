@@ -215,14 +215,14 @@ df_c17_1$Side[grep("DiffM1", df_c17_1$Variable)] <- "Left"
 
 df_c17_1$Type<-factor(df_c17_1$Type, levels = c("Location", "Group", "Other"))
 
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter lives in a different  nearby community"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a different  nearby community"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives  far away in La Paz"
-df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives  far away in La Paz"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter pueblo indígena is  different from decider"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter pueblo indígena is  different from decider"
-df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter religion is  different from decider"
-df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_Diff1"] <- "Alter religion is  different from decider"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter lives in a nearby community"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a nearby community"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives far away in La Paz"
+df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives far away in La Paz"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter is from other pueblo indígena"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter is from other pueblo indígena"
+df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter has other religious affiliation"
+df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_Diff1"] <- "Alter has other religious affiliation"
 df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_DiffM1"] <- "Alter is a very good person"
 df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_Diff1"] <- "Alter is a very good person"
 df_c17_1$Variable[df_c17_1$Variable %in% "Good.Med_DiffM1"] <- "Alter is a good person"
@@ -236,8 +236,8 @@ df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.High_Diff1"] <- "Alter has a lo
 df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_DiffM1"] <- "Alter has some money"
 df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_Diff1"] <- "Alter has some money"
 
-df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Alter lives  far away in La Paz", "Alter lives in a different  nearby community",
-        "Alter pueblo indígena is  different from decider", "Alter religion is  different from decider", 
+df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Alter lives far away in La Paz", "Alter lives in a nearby community",
+        "Alter is from other pueblo indígena", "Alter has other religious affiliation", 
         "Alter has some money", "Alter has a lot of money", "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy"
 )) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
@@ -254,12 +254,12 @@ p <- ggplot(df_c17_R, aes(x = Variable, y = Est, ymin = LI, ymax = HI, color = T
      geom_hline(aes(yintercept = 1), color = "blue", linetype = "dashed") +
      facet_grid(Type ~ . , scales = "free_y", space = "free_y") + scale_y_log10() +
      labs(y = "Odds of selecting the card", x = "Card attributes") + theme(strip.text.x = element_text(size = 14 , face = "bold"), 
-     strip.text.y = element_text(size = 14, face = "bold"), axis.text = element_text(size = 12), axis.title = element_text(size = 14,
-     face = "bold")) + theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(1, "lines")) + 
+     strip.text.y = element_text(size = 14, face = "bold"), axis.text = element_text(size = 10), axis.title = element_text(size = 12,
+     face = "bold")) + theme(strip.text.y = element_text(angle = 360))  + coord_flip() + theme(panel.spacing = unit(0.5, "lines")) + 
      scale_color_manual(values = c("Location" = "royalblue4", "Group" = "orange3", "Other" = "black")) + theme(legend.position = "none")
 
    p  
-ggsave("Bolivia_CardChoice_Non-Standardized.pdf", p, height = 5, width = 9)
+ggsave("Bolivia_CardChoice_Non-Standardized.pdf", p, height = 2.5, width = 6)
 
 ### SUPPLEMENT PLOT (left and right)
 
