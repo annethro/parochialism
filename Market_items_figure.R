@@ -29,9 +29,9 @@ dati <- dat[dat$Population == "Intercultural",]
 
 modt <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.This.Mo + Places.Lived + Coop.Labor + Media.zscore + Nonanonymous.Play + Times.Church.Mo, data = datt, control = list(adapt_delta = 0.99), family = gaussian)
 
-modi <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.This.Mo + Places.Lived + Coop.Labor + Media.zscore + Nonanonymous.Play + Times.Church.Mo, data = dati, control = list(adapt_delta = 0.99), family = gaussian, prior = priors)
+modi <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.This.Mo + Places.Lived + Coop.Labor + Media.zscore + Nonanonymous.Play + Times.Church.Mo, data = dati, control = list(adapt_delta = 0.99), family = gaussian)
 
-modm <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.This.Mo + Places.Lived + Coop.Labor + Media.zscore + Nonanonymous.Play + Times.Church.Mo, data = datm, control = list(adapt_delta = 0.99), family = gaussian, prior = priors)
+modm <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.This.Mo + Places.Lived + Coop.Labor + Media.zscore + Nonanonymous.Play + Times.Church.Mo, data = datm, control = list(adapt_delta = 0.99), family = gaussian)
 
 ### Predict values by population
 # Why predict instead of just smooth the plot between market items and average amount to an out-group member? Because this method allows us to control for the influence of other variables known to matter in this data set.
@@ -80,7 +80,7 @@ cols <- c("Intercultural" = "black", "Mosetén" = "orange3", "Tsimane'" = "royal
     geom_smooth(aes(ymin = Q5, ymax = Q95, color = Population, fill = Population), stat = "identity", alpha = 0.2, lwd = 2) +
     xlab("Market items owned (normalized)") + ylab("Predicted bolivianos to out-group recipient") +
     scale_colour_manual(values = cols) + scale_fill_manual(values = cols) + 
-    theme(legend.position="bottom", legend.title = element_blank(), legend.text=element_text(size=12)) +
+    theme(legend.position="none") +
   theme(strip.text = element_text(size = 14, face = "bold"), axis.text = element_text(size = 14, face = "bold"), axis.title = element_text(size = 13, face = "bold"), panel.grid = element_blank()) + 
     theme(strip.text.y = element_text(angle = 360))  + 
     theme(panel.spacing = unit(1, "lines")) + 
