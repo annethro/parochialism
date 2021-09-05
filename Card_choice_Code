@@ -219,8 +219,8 @@ df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter live
 df_c17_1$Variable[df_c17_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a nearby community"
 df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives far away in La Paz"
 df_c17_1$Variable[df_c17_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives far away in La Paz"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter is from other pueblo indígena"
-df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter is from other pueblo indígena"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter is from other pueblo indÃ­gena"
+df_c17_1$Variable[df_c17_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter is from other pueblo indÃ­gena"
 df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter has other religious affiliation"
 df_c17_1$Variable[df_c17_1$Variable %in% "Relig.Other_Diff1"] <- "Alter has other religious affiliation"
 df_c17_1$Variable[df_c17_1$Variable %in% "Good.High_DiffM1"] <- "Alter is a very good person"
@@ -237,7 +237,7 @@ df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_DiffM1"] <- "Alter has some
 df_c17_1$Variable[df_c17_1$Variable %in% "Wealth.Med_Diff1"] <- "Alter has some money"
 
 df_c17_1$Variable <- factor(df_c17_1$Variable, levels = c("Alter lives far away in La Paz", "Alter lives in a nearby community", 
-        "Alter has other religious affiliation", "Alter is from other pueblo indígena", 
+        "Alter has other religious affiliation", "Alter is from other pueblo indÃ­gena", 
         "Alter has some money", "Alter has a lot of money", "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy"
 )) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
@@ -507,8 +507,8 @@ df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1"] <- "Alter live
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1"] <- "Alter lives in a nearby community"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_DiffM1"] <- "Alter lives far away in La Paz"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.City_Diff1"] <- "Alter lives far away in La Paz"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter is from other pueblo indígena"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter is from other pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1"] <- "Alter is from other pueblo indÃ­gena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1"] <- "Alter is from other pueblo indÃ­gena"
 df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_DiffM1"] <- "Alter has other religious affiliation"
 df_c14_1$Variable[df_c14_1$Variable %in% "Relig.Other_Diff1"] <- "Alter has other religious affiliation"
 df_c14_1$Variable[df_c14_1$Variable %in% "Good.High_DiffM1"] <- "Alter is a very good person"
@@ -524,20 +524,20 @@ df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.High_Diff1"] <- "Alter has a lo
 df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_DiffM1"] <- "Alter has some money"
 df_c14_1$Variable[df_c14_1$Variable %in% "Wealth.Med_Diff1"] <- "Alter has some money"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z"] <- "Average given to out-group alters"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo"] <- "Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo"] <- "Out-group is pueblo indÃ­gena"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_DiffM1:Give_Out.z"] <- "Nearby community *  Average given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Loc.SameValley_Diff1:Give_Out.z"] <- "Nearby community *  Average given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_DiffM1"] <- "La Paz * Average given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Loc.City_Diff1"] <- "La Paz * Average given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1"] <- "Different pueblo indígena *  Average given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1"] <- "Different pueblo indígena *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1"] <- "Different pueblo indÃ­gena *  Average given"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1"] <- "Different pueblo indÃ­gena *  Average given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_DiffM1"] <- "Different religion *  Average given"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Relig.Other_Diff1"] <- "Different religion *  Average given"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1:Type.Pueblo"] <- "Different pueblo indígena *  Out-group is pueblo indígena"
-df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1:Type.Pueblo"] <- "Different pueblo indígena *  Out-group is pueblo indígena"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_DiffM1"] <- "Different religion *  Out-group is pueblo indígena"
-df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_Diff1"] <- "Different religion *  Out-group is pueblo indígena"
-df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo"] <- "Average given *  Out-group is pueblo indígena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_DiffM1:Type.Pueblo"] <- "Different pueblo indÃ­gena *  Out-group is pueblo indÃ­gena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Pueblo.Other_Diff1:Type.Pueblo"] <- "Different pueblo indÃ­gena *  Out-group is pueblo indÃ­gena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_DiffM1"] <- "Different religion *  Out-group is pueblo indÃ­gena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Type.Pueblo:Relig.Other_Diff1"] <- "Different religion *  Out-group is pueblo indÃ­gena"
+df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo"] <- "Average given *  Out-group is pueblo indÃ­gena"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_DiffM1:Type.Pueblo"] <- "Diff. pueblo * Avg. given * Pueblo out-group"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Pueblo.Other_Diff1:Type.Pueblo"] <- "Diff. pueblo * Avg. given * Pueblo out-group"
 df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_DiffM1"] <- "Diff. religion * Avg. given * Pueblo out-group"
@@ -545,11 +545,11 @@ df_c14_1$Variable[df_c14_1$Variable %in% "Give_Out.z:Type.Pueblo:Relig.Other_Dif
 
 df_c14_1$Variable <- factor(df_c14_1$Variable, levels = c("La Paz * Average given", "Alter lives far away in La Paz", "Nearby community *  Average given", "Alter lives in a nearby community",  
                                                           
-                                                          "Diff. religion * Avg. given * Pueblo out-group", "Different religion *  Out-group is pueblo indígena",  "Different religion *  Average given", "Alter has other religious affiliation",
+                                                          "Diff. religion * Avg. given * Pueblo out-group", "Different religion *  Out-group is pueblo indÃ­gena",  "Different religion *  Average given", "Alter has other religious affiliation",
                                                           
-                                                          "Diff. pueblo * Avg. given * Pueblo out-group", "Different pueblo indígena *  Out-group is pueblo indígena", "Different pueblo indígena *  Average given", "Alter is from other pueblo indígena",
+                                                          "Diff. pueblo * Avg. given * Pueblo out-group", "Different pueblo indÃ­gena *  Out-group is pueblo indÃ­gena", "Different pueblo indÃ­gena *  Average given", "Alter is from other pueblo indÃ­gena",
                                                           
-                                                          "Average given *  Out-group is pueblo indígena", "Out-group is pueblo indígena", "Average given to out-group alters", "Alter has some money","Alter has a lot of money",  "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
+                                                          "Average given *  Out-group is pueblo indÃ­gena", "Out-group is pueblo indÃ­gena", "Average given to out-group alters", "Alter has some money","Alter has a lot of money",  "Alter is a good person", "Alter is a very good person", "Alter is trustworthy", "Alter is very trustworthy")) #This re-orders the data frame such that variables appear in the order discussed in the manuscript.
 
 
 levels(df_c14_1$Variable) <- gsub("  ", "\n", levels(df_c14_1$Variable))
