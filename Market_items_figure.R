@@ -61,7 +61,7 @@ pt$Market.Items <- mi.t
 newm <- data.frame(Market.Items.zscore = mi.t, log.Subj.SES = mean(datm$log.Subj.SES), Places.Lived = mean(datm$Places.Lived), Media.zscore = mean(datm$Media.zscore), Times.Church.Mo = mean(datm$Times.Church.Mo), Ill.This.Mo = getmode(datm$Ill.This.Mo), Coop.Labor = getmode(datm$Coop.Labor), Nonanonymous.Play = getmode(datm$Nonanonymous.Play))
 
 pm <- data.frame(predict(modm, newdata = newm, probs = c(0.05, 0.95)))
-pm$Population <- "Mosetén"
+pm$Population <- "MosetÃ©n"
 pm$Market.Items <- mi.t
 
 newi <- data.frame(Market.Items.zscore = mi.t, log.Subj.SES = mean(dati$log.Subj.SES), Places.Lived = mean(dati$Places.Lived), Media.zscore = mean(dati$Media.zscore), Times.Church.Mo = mean(dati$Times.Church.Mo), Ill.This.Mo = getmode(dati$Ill.This.Mo), Coop.Labor = getmode(dati$Coop.Labor), Nonanonymous.Play = getmode(dati$Nonanonymous.Play))
@@ -74,7 +74,7 @@ pdat <- rbind(pt, pm, pi)
 
 ### Plot
 
-cols <- c("Intercultural" = "black", "Mosetén" = "orange3", "Tsimane'" = "royalblue4")
+cols <- c("Intercultural" = "black", "MosetÃ©n" = "orange3", "Tsimane'" = "royalblue4")
 
 (p <- ggplot(pdat, aes(x = Market.Items, y = Estimate, color = Population)) +
     geom_smooth(aes(ymin = Q5, ymax = Q95, color = Population, fill = Population), stat = "identity", alpha = 0.2, lwd = 2) +
