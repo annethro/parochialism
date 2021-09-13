@@ -1,7 +1,8 @@
 library(brms); library(ggplot2)
+setwd() # Set your working directory.
 
-### Download data from Pisor & Gurven 2016
-dat <- read.csv("Pisor & Gurven 2016 paper data.csv", header = T) #Update with URL once repo is public.
+### Download data from Pisor & Gurven (2016) (https://www.nature.com/articles/srep30435)
+dat <- read.csv("Pisor & Gurven 2016 paper data.csv", header = T)
 
 ### Prepare variables
 
@@ -37,7 +38,7 @@ modm <- brm(OG.Avg | cens (censor) ~ Market.Items.zscore + log.Subj.SES + Ill.Th
 # Why predict instead of just smooth the plot between market items and average amount to an out-group member? Because this method allows us to control for the influence of other variables known to matter in this data set.
 # We're predicting only for the interval over which Tsimane' values were observed, which is just a subset of the total market items interval.
 
-# User-defined function for mode.
+# User-defined function for obtaining the mode.
 
 getmode <- function(v) {
   uniqv <- unique(v)
@@ -61,7 +62,7 @@ pt$Market.Items <- mi.t
 newm <- data.frame(Market.Items.zscore = mi.t, log.Subj.SES = mean(datm$log.Subj.SES), Places.Lived = mean(datm$Places.Lived), Media.zscore = mean(datm$Media.zscore), Times.Church.Mo = mean(datm$Times.Church.Mo), Ill.This.Mo = getmode(datm$Ill.This.Mo), Coop.Labor = getmode(datm$Coop.Labor), Nonanonymous.Play = getmode(datm$Nonanonymous.Play))
 
 pm <- data.frame(predict(modm, newdata = newm, probs = c(0.05, 0.95)))
-pm$Population <- "Mosetén"
+pm$Population <- "Mosetén" # If you get weird characters here in your text editor, like I do, that's an e with an accent.
 pm$Market.Items <- mi.t
 
 newi <- data.frame(Market.Items.zscore = mi.t, log.Subj.SES = mean(dati$log.Subj.SES), Places.Lived = mean(dati$Places.Lived), Media.zscore = mean(dati$Media.zscore), Times.Church.Mo = mean(dati$Times.Church.Mo), Ill.This.Mo = getmode(dati$Ill.This.Mo), Coop.Labor = getmode(dati$Coop.Labor), Nonanonymous.Play = getmode(dati$Nonanonymous.Play))
